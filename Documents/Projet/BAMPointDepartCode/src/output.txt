@@ -1,0 +1,3446 @@
+File: ./systick.c
+#include <stdio.h>
+#include <math.h>
+#include "sys/cm4.h"
+#include "sys/devices.h"
+#include "sys/init.h"
+#include "sys/clock.h"
+#include "systick.h"
+
+void SysTick_init(uint32_t freq) {
+  uint32_t period=get_SYSCLK()/freq;
+  SysTick.LOAD=((period-1)&0x00ffffff);
+  SysTick.VAL=0;
+  SysTick.CTRL|=0x7;
+}
+File: ./buzzer.h
+void buzzer_pwm_init (uint32_t TIM2_freq);
+void toggle_buzzer();
+
+#define TIM2_Base 100000  /* 100kHz counter freq */
+File: ./button.c
+#include <stdio.h>
+#include <math.h>
+#include "sys/cm4.h"
+#include "sys/devices.h"
+#include "sys/init.h"
+#include "sys/clock.h"
+#include "button.h"
+
+void button_init()
+{
+
+}
+
+void button_irq_init ()
+{
+
+}
+
+uint32_t button_poll()
+{
+
+}
+
+
+File: ./musique.h
+/*****************************************************
+Nom du fichier: musique.h
+
+Auteurs : Lucas Besson
+          Charles Blanchard
+          Clement Deligeon
+          Morad Bahassou
+Date de création : 06/02/2018
+
+Modifications : Frederic Rousseau
+Dernière modification : 13/05/2018
+
+*************************************************** */
+
+#include <stdint.h>
+
+#define NB_MAX 100
+
+/* DEFINITION DES NOTES EN FONCTION DE LEUR FREQUENCES */
+
+#define DO 262
+#define DO_DIESE 277
+#define RE 294
+#define RE_DIESE 311
+#define MI 330
+#define FA 349
+#define FA_DIESE 370
+#define SOL 392
+#define SOL_DIESE 415
+#define LA 440
+#define LA_DIESE 466
+#define SI 494
+
+/*  Mais aussi par habitude */
+#define SI_BEMOL 466
+#define LA_BEMOL 415
+#define MI_BEMOL 311
+
+/* DEFINITION DES TEMPS */
+
+#define RONDE 16
+#define BLANCHE 8
+#define NOIRE 4
+#define DOUBLE_CROCHE 1
+#define CROCHE 2
+#define CROCHE_POINTE 3
+#define BLANCHE_POINTE 12
+#define NOIRE_POINTE 6
+
+
+/* DEFINITION DES TYPES "Note" ET "Melodie" */
+
+typedef struct Note Note;
+struct Note{
+    uint32_t frequence;         /* Frequence de la note */
+    uint32_t duree;             /* Duree de la note (temps) */
+};
+
+typedef struct Melodie Melodie;
+struct Melodie{
+    uint32_t nb_note;           /* Nombre de note de la melodie */
+    Note partition[NB_MAX];     /* Tableau contenant les notes */
+};
+
+
+/* INITIALISATION DES MELODIES */
+
+const Melodie gamme = { 8, {
+    {DO,NOIRE}, {RE,NOIRE}, {MI,NOIRE}, {FA,NOIRE}, {SOL,NOIRE}, {LA,NOIRE}, {SI,NOIRE}, {DO*2,NOIRE}  } };
+
+    
+const Melodie morceau1 = { 18, {
+    {SOL,NOIRE},{SOL,NOIRE},{SOL,NOIRE},{MI_BEMOL,CROCHE_POINTE},{SI_BEMOL,DOUBLE_CROCHE},
+    {SOL,NOIRE},{MI_BEMOL,CROCHE_POINTE},{SI_BEMOL,DOUBLE_CROCHE},{SOL,NOIRE_POINTE},
+    {RE*2,NOIRE},{RE*2,NOIRE},{RE*2,NOIRE},{MI_BEMOL*2,CROCHE_POINTE},{SI_BEMOL,DOUBLE_CROCHE},
+    {FA_DIESE,NOIRE},{MI_BEMOL,CROCHE_POINTE},{SI_BEMOL,DOUBLE_CROCHE},{SOL,NOIRE_POINTE} } };
+
+
+File: ./systick.h
+void SysTick_init(uint32_t freq);
+File: ./button.h
+void button_init();
+void button_irq_init ();
+uint32_t button_poll();
+File: ./output.txt
+File: ./systick.c
+#include <stdio.h>
+#include <math.h>
+#include "sys/cm4.h"
+#include "sys/devices.h"
+#include "sys/init.h"
+#include "sys/clock.h"
+#include "systick.h"
+
+void SysTick_init(uint32_t freq) {
+  uint32_t period=get_SYSCLK()/freq;
+  SysTick.LOAD=((period-1)&0x00ffffff);
+  SysTick.VAL=0;
+  SysTick.CTRL|=0x7;
+}
+File: ./buzzer.h
+void buzzer_pwm_init (uint32_t TIM2_freq);
+void toggle_buzzer();
+
+#define TIM2_Base 100000  /* 100kHz counter freq */
+File: ./button.c
+#include <stdio.h>
+#include <math.h>
+#include "sys/cm4.h"
+#include "sys/devices.h"
+#include "sys/init.h"
+#include "sys/clock.h"
+#include "button.h"
+
+void button_init()
+{
+
+}
+
+void button_irq_init ()
+{
+
+}
+
+uint32_t button_poll()
+{
+
+}
+
+
+File: ./musique.h
+/*****************************************************
+Nom du fichier: musique.h
+
+Auteurs : Lucas Besson
+          Charles Blanchard
+          Clement Deligeon
+          Morad Bahassou
+Date de création : 06/02/2018
+
+Modifications : Frederic Rousseau
+Dernière modification : 13/05/2018
+
+*************************************************** */
+
+#include <stdint.h>
+
+#define NB_MAX 100
+
+/* DEFINITION DES NOTES EN FONCTION DE LEUR FREQUENCES */
+
+#define DO 262
+#define DO_DIESE 277
+#define RE 294
+#define RE_DIESE 311
+#define MI 330
+#define FA 349
+#define FA_DIESE 370
+#define SOL 392
+#define SOL_DIESE 415
+#define LA 440
+#define LA_DIESE 466
+#define SI 494
+
+/*  Mais aussi par habitude */
+#define SI_BEMOL 466
+#define LA_BEMOL 415
+#define MI_BEMOL 311
+
+/* DEFINITION DES TEMPS */
+
+#define RONDE 16
+#define BLANCHE 8
+#define NOIRE 4
+#define DOUBLE_CROCHE 1
+#define CROCHE 2
+#define CROCHE_POINTE 3
+#define BLANCHE_POINTE 12
+#define NOIRE_POINTE 6
+
+
+/* DEFINITION DES TYPES "Note" ET "Melodie" */
+
+typedef struct Note Note;
+struct Note{
+    uint32_t frequence;         /* Frequence de la note */
+    uint32_t duree;             /* Duree de la note (temps) */
+};
+
+typedef struct Melodie Melodie;
+struct Melodie{
+    uint32_t nb_note;           /* Nombre de note de la melodie */
+    Note partition[NB_MAX];     /* Tableau contenant les notes */
+};
+
+
+/* INITIALISATION DES MELODIES */
+
+const Melodie gamme = { 8, {
+    {DO,NOIRE}, {RE,NOIRE}, {MI,NOIRE}, {FA,NOIRE}, {SOL,NOIRE}, {LA,NOIRE}, {SI,NOIRE}, {DO*2,NOIRE}  } };
+
+    
+const Melodie morceau1 = { 18, {
+    {SOL,NOIRE},{SOL,NOIRE},{SOL,NOIRE},{MI_BEMOL,CROCHE_POINTE},{SI_BEMOL,DOUBLE_CROCHE},
+    {SOL,NOIRE},{MI_BEMOL,CROCHE_POINTE},{SI_BEMOL,DOUBLE_CROCHE},{SOL,NOIRE_POINTE},
+    {RE*2,NOIRE},{RE*2,NOIRE},{RE*2,NOIRE},{MI_BEMOL*2,CROCHE_POINTE},{SI_BEMOL,DOUBLE_CROCHE},
+    {FA_DIESE,NOIRE},{MI_BEMOL,CROCHE_POINTE},{SI_BEMOL,DOUBLE_CROCHE},{SOL,NOIRE_POINTE} } };
+
+
+File: ./systick.h
+void SysTick_init(uint32_t freq);
+File: ./button.h
+void button_init();
+void button_irq_init ();
+uint32_t button_poll();
+File: ./output.txt
+File: ./buzzer.c
+#include <stdio.h>
+#include <math.h>
+#include "sys/cm4.h"
+#include "sys/devices.h"
+#include "sys/init.h"
+#include "sys/clock.h"
+#include "buzzer.h"
+
+void buzzer_pwm_init (uint32_t TIM2_freq)
+{
+
+}
+
+void toggle_buzzer()
+{
+
+}
+File: ./led.h
+#include <stdint.h>
+
+void led_init();
+void led_tri_set(uint32_t status);
+File: ./main.c
+#include <stdio.h>
+#include <math.h>
+#include "sys/cm4.h"
+#include "sys/devices.h"
+#include "sys/init.h"
+#include "sys/clock.h"
+#include "systick.h"
+/* #include "led.h" */
+/* #include "button.h" */
+/* #include "buzzer.h" */
+/* #include "musique.h" */
+
+
+/* Fonction permmetant de jouer une note */
+/*
+void jouer_note(uint32_t freq, uint32_t temps);
+*/
+
+
+/* Handler d'interruption systick - a decommenter ci-besoin */
+/*
+void __attribute__((interrupt)) SysTick_Handler()
+{
+}
+*/
+
+
+/* Handler d'interruption du bouton sur PB8 - a decommenter ci-besoin */
+/*
+void __attribute__((interrupt)) EXTI9_5_Handler()
+{
+	EXTI.PR |= (1<<8);
+}
+*/
+
+
+/* Handler d'interruption du bouton sur PC13 - a decommenter ci-besoin */
+/*
+void __attribute__((interrupt)) EXTI15_10_Handler()
+{
+	EXTI.PR |= (1<<13);  
+}
+*/
+
+
+int main()
+{
+	/* Initialisation a decommenter en fonction du programme */
+	/* enable_GPIOA(); */
+	/* enable_GPIOB(); */
+	/* enable_GPIOC(); */
+
+	/* led_init(); */
+
+	/* On initialise les IT BP et systick a 1ms */
+	/* button_init(); */
+	/* button_irq_init(); */
+	/* SysTick_init(1000); */
+  
+	/* On initilise le buzzer pilote par TIM2-CH2 */
+	/* enable_TIM2();*/
+	/* buzzer_pwm_init(1000);*/
+  
+	printf("*** Welcome to Nucleo F446 ! ***\r\n");
+
+	while(1);
+	
+	return 0;
+}
+
+
+
+File: ./boot/startup.c
+#include<string.h>
+
+typedef void (*fnptr)();
+
+void hardware_init_hook() {
+  extern const char __data_load__; 
+  extern char __data_start__;
+  extern char __data_end__;
+
+  memcpy(&__data_start__,&__data_load__,(&__data_end__ - &__data_start__));
+}
+
+struct boot_struct {
+  void* initial_SP;
+  void (*initial_PC)();
+};
+
+extern char __stack;
+extern void _start();
+
+struct boot_struct __boot_sector 
+__attribute__(( section("boot") ))  = 
+  {&__stack,_start};
+File: ./boot/crc_info.h
+#include<stdint.h>
+
+typedef struct {
+  uint32_t data_size;
+  uint32_t data_crc;
+} crc_info;
+
+extern const crc_info flash_crc_info;
+File: ./boot/crc_info.c
+#include "crc_info.h"
+
+#ifndef FLASH_SIZE
+#define FLASH_SIZE 0x00000000
+#endif
+
+#ifndef FLASH_CRC
+#define FLASH_CRC  0xffffffff
+#endif
+
+const __attribute__(( section("crc_info") )) 
+crc_info flash_crc_info = { FLASH_SIZE, FLASH_CRC };
+File: ./boot/interrupts.c
+
+/* We define interrupt handlers as weak aliases to Default_Handler */
+
+void Default_Handler() { while(1); }
+
+/* ARM Cortex-M4 interrupts */
+
+void NMI_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void HardFault_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void MemManage_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+  
+void BusFault_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void UsageFault_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void SVCall_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void Debug_Monitor_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void PendSV_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void SysTick_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+
+  
+/* STM32F446 specific interrupts */
+
+  
+void WWDG_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void PVD_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TAMP_STAMP_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void RTC_WKUP_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void FLASH_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void RCC_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void EXTI0_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void EXTI1_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void EXTI2_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void EXTI3_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void EXTI4_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream0_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream1_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream2_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream3_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream4_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream5_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream6_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void ADC_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void CAN1_TX_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void CAN1_RX0_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void CAN1_RX1_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void CAN1_SCE_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void EXTI9_5_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM1_BRK_TIM9_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM1_UP_TIM10_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM1_TRG_COM_TIM11_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM1_CC_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM2_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM3_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM4_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void I2C1_EV_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void I2C1_ER_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void I2C2_EV_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void I2C2_ER_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void SPI1_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void SPI2_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void USART1_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void USART2_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void USART3_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void EXTI15_10_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void RTC_Alarm_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void OTG_FS_WKUP_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM8_BRK_TIM12_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM8_UP_TIM13_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM8_TRG_COM_TIM14_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM8_CC_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA1_Stream7_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void FMC_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void SDIO_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM5_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void SPI3_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void UART4_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void UART5_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM6_DAC_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void TIM7_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream0_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream1_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream2_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream3_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream4_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void CAN2_TX_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void CAN2_RX0_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void CAN2_RX1_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void CAN2_SCE_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void OTG_FS_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream5_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream6_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DMA2_Stream7_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void USART6_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void I2C3_EV_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void I2C3_ER_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void OTG_HS_EP1_OUT_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void OTG_HS_EP1_IN_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void OTG_HS_WKUP_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void OTG_HS_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void DCMI_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void FPU_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void SPI4_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void SAI1_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void SAI2_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void QuadSPI_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void HDMI_CEC_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void SPDIF_Rx_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void FMPI2C1_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+void FMPI2C1_error_Handler()
+  __attribute__ ((weak, alias ("Default_Handler")));
+
+/* We put handler addresses in main interrupt vector */
+
+typedef void (*isr)();
+
+const __attribute(( section("interrupt_vector") )) 
+isr __interrupt_vector[] = {
+
+/* ARM Cortex-M4 Interrupts */
+
+  NMI_Handler,
+  HardFault_Handler,
+  MemManage_Handler, 
+  BusFault_Handler,
+  UsageFault_Handler,
+  0,
+  0,
+  0,
+  0,
+  SVCall_Handler,
+  Debug_Monitor_Handler,
+  0,
+  PendSV_Handler,
+  SysTick_Handler,
+ 
+/* STM32F446 specific interrupts */
+ 
+  WWDG_Handler,
+  PVD_Handler,
+  TAMP_STAMP_Handler,
+  RTC_WKUP_Handler,
+  FLASH_Handler,
+  RCC_Handler,
+  EXTI0_Handler,
+  EXTI1_Handler,
+  EXTI2_Handler,
+  EXTI3_Handler,
+  EXTI4_Handler,
+  DMA1_Stream0_Handler,
+  DMA1_Stream1_Handler,
+  DMA1_Stream2_Handler,
+  DMA1_Stream3_Handler,
+  DMA1_Stream4_Handler,
+  DMA1_Stream5_Handler,
+  DMA1_Stream6_Handler,
+  ADC_Handler,
+  CAN1_TX_Handler,
+  CAN1_RX0_Handler,
+  CAN1_RX1_Handler,
+  CAN1_SCE_Handler,
+  EXTI9_5_Handler,
+  TIM1_BRK_TIM9_Handler,
+  TIM1_UP_TIM10_Handler,
+  TIM1_TRG_COM_TIM11_Handler,
+  TIM1_CC_Handler,
+  TIM2_Handler,
+  TIM3_Handler,
+  TIM4_Handler,
+  I2C1_EV_Handler,
+  I2C1_ER_Handler,
+  I2C2_EV_Handler,
+  I2C2_ER_Handler,
+  SPI1_Handler,
+  SPI2_Handler,
+  USART1_Handler,
+  USART2_Handler,
+  USART3_Handler,
+  EXTI15_10_Handler,
+  RTC_Alarm_Handler,
+  OTG_FS_WKUP_Handler,
+  TIM8_BRK_TIM12_Handler,
+  TIM8_UP_TIM13_Handler,
+  TIM8_TRG_COM_TIM14_Handler,
+  TIM8_CC_Handler,
+  DMA1_Stream7_Handler,
+  FMC_Handler,
+  SDIO_Handler,
+  TIM5_Handler,
+  SPI3_Handler,
+  UART4_Handler,
+  UART5_Handler,
+  TIM6_DAC_Handler,
+  TIM7_Handler,
+  DMA2_Stream0_Handler,
+  DMA2_Stream1_Handler,
+  DMA2_Stream2_Handler,
+  DMA2_Stream3_Handler,
+  DMA2_Stream4_Handler,
+  0,
+  0,
+  CAN2_TX_Handler,
+  CAN2_RX0_Handler,
+  CAN2_RX1_Handler,
+  CAN2_SCE_Handler,
+  OTG_FS_Handler,
+  DMA2_Stream5_Handler,
+  DMA2_Stream6_Handler,
+  DMA2_Stream7_Handler,
+  USART6_Handler,
+  I2C3_EV_Handler,
+  I2C3_ER_Handler,
+  OTG_HS_EP1_OUT_Handler,
+  OTG_HS_EP1_IN_Handler,
+  OTG_HS_WKUP_Handler,
+  OTG_HS_Handler,
+  DCMI_Handler,
+  0,
+  0,
+  FPU_Handler,
+  0,
+  0,
+  SPI4_Handler,
+  0,
+  0,
+  SAI1_Handler,
+  0,
+  0,
+  0,
+  SAI2_Handler,
+  QuadSPI_Handler,
+  HDMI_CEC_Handler,
+  SPDIF_Rx_Handler,
+  FMPI2C1_Handler,
+  FMPI2C1_error_Handler
+};
+File: ./sys/clock.c
+#include"clock.h"
+#include"devices.h"
+#include "cm4.h"
+
+void start_PLL(PLLSRC SRC,
+		 int32_t M,int32_t N,int32_t P,int32_t Q,int32_t R) { 
+  /* setup parameters */
+  RCC.PLLCFGR = 
+    (M<<0)    | (N<<6)  | ((P/2-1)<<16) |
+    (SRC<<22) | (Q<<24) | (R<<28) ;
+  
+  /* Switch on PLL : PLLON=1; */ 
+  RCC.CR |= 1<<24;
+  
+  /* wait for PLLRDY==1; */
+  while ((RCC.CR&(1<<25))==0);
+}  
+
+void stop_PLL() {
+  /* Switch off PLL : PLLON=0; */ 
+  RCC.CR &= ~(1<<24);
+  __DSB();
+}  
+
+void set_SYSCLK(SW SRC) {
+  RCC.CFGR = (RCC.CFGR & ~(0x3<<0)) | ((SRC & 0x3)<<0);
+  while (((RCC.CFGR>>2) & 3)!=SRC);
+}
+
+void set_bus_clock_dividers_exp(uint32_t HPRE__exp,
+				  uint32_t PPRE1_exp,
+				  uint32_t PPRE2_exp) {
+  uint32_t HPRE =(HPRE__exp==0?0:(0x8|((HPRE__exp-1) & 0x7)));
+  uint32_t PPRE1=(PPRE1_exp==0?0:(0x4|((PPRE1_exp-1) & 0x3)));
+  uint32_t PPRE2=(PPRE2_exp==0?0:(0x4|((PPRE2_exp-1) & 0x3)));
+  RCC.CFGR=
+    (RCC.CFGR & ~0xfcf0) | 
+    ((HPRE<<4) | (PPRE1<<10) | (PPRE2<<13));
+}
+
+void set_MCO(MCO1SRC SRC1,uint32_t DIV1,MCO2SRC SRC2,uint32_t DIV2) {
+  uint32_t MCO1=SRC1&0x3;
+  uint32_t MCO2=SRC2&0x3;
+  uint32_t MCO1PRE=((DIV1<=1)?0:((DIV1+2)&0x7));
+  uint32_t MCO2PRE=((DIV2<=1)?0:((DIV2+2)&0x7));
+  RCC.CFGR = (RCC.CFGR & ~0xff600000) |
+    ((MCO1<<21) | (MCO1PRE<<24) |
+     (MCO2PRE<<27) | (MCO2<<30));
+}
+
+void enable_MCO_GPIO() {
+
+  enable_GPIOA();
+  enable_GPIOC();
+
+  /* setup PA8,PC9 alternate function : MCO1 */
+  /* AFRH8=0; */
+  GPIOA.AFRH &= ~0x0000000f;
+  GPIOC.AFRH &= ~0x000000f0;
+
+  /* switch PA8,PC9 to alternate function mode */
+  /* MODERx=2; */
+  GPIOA.MODER = 
+    (GPIOA.MODER & ~(3<<16)) | (2<<16);
+  GPIOC.MODER = 
+    (GPIOC.MODER & ~(3<<18)) | (2<<18);
+}
+
+uint32_t get_PLL_PCLK() {
+  uint32_t pllcfgr=RCC.PLLCFGR;
+  uint32_t 
+    M=(pllcfgr>>0)&0x3f,
+    N=(pllcfgr>>6)&0x1ff,
+    P=((pllcfgr>>16)&0x3)*2+2;
+  PLLSRC SRC=(pllcfgr>>22)&0x1;
+  if (SRC==PLLSRC_HSI) {
+    return (HSI_FREQ*MHz/M*N/P);
+  } else {
+    return (HSE_FREQ*MHz/M*N/P);
+  }
+}
+
+uint32_t get_PLL_RCLK() {
+  uint32_t pllcfgr=RCC.PLLCFGR;
+  uint32_t 
+    M=(pllcfgr>>0)&0x3f,
+    N=(pllcfgr>>6)&0x1ff,
+    R=(pllcfgr>>28)&0x7;
+  PLLSRC SRC=(pllcfgr>>22)&0x1;
+  if (SRC==PLLSRC_HSI) {
+    return (HSI_FREQ*MHz/M*N/R);
+  } else {
+    return (HSE_FREQ*MHz/M*N/R);
+  }
+}
+
+uint32_t get_SYSCLK() {
+  SW SWS=(RCC.CFGR>>2)&0x3;
+  switch (SWS) {
+  case SW_HSI:
+    return (HSI_FREQ*MHz);
+  case SW_HSE:
+    return (HSE_FREQ*MHz);
+  case SW_PLL_P:
+    return get_PLL_PCLK();
+  case SW_PLL_R:
+    return get_PLL_RCLK();
+  }
+  return 0;
+}
+
+uint32_t get_AHBCLK() {
+  uint32_t cfgr=RCC.CFGR;
+  if ((cfgr&(1<<7))==0) {
+    return (get_SYSCLK());
+  } else {
+    return(get_SYSCLK() >> (((cfgr>>4)&0x7)+1));
+  } 
+}
+
+uint32_t get_APB1CLK() {
+  uint32_t cfgr=RCC.CFGR;
+  if ((cfgr&(1<<12))==0) {
+    return (get_AHBCLK());
+  } else {
+    return(get_AHBCLK() >> (((cfgr>>10)&0x3)+1));
+  } 
+}
+
+uint32_t get_APB2CLK() {
+  uint32_t cfgr=RCC.CFGR;
+  if ((cfgr&(1<<15))==0) {
+    return (get_AHBCLK());
+  } else {
+    return(get_AHBCLK() >> (((cfgr>>13)&0x3)+1));
+  } 
+}
+
+uint32_t get_APB1TIMCLK() {
+  uint32_t cfgr=RCC.CFGR;
+  if ((cfgr&(1<<12))==0) {
+    return (get_APB1CLK());
+  } else {
+    return (get_APB1CLK()*2);
+  } 
+}
+
+uint32_t get_APB2TIMCLK() {
+  uint32_t cfgr=RCC.CFGR;
+  if ((cfgr&(1<<15))==0) {
+    return (get_APB2CLK());
+  } else {
+    return (get_APB2CLK()*2);
+  } 
+}
+
+File: ./sys/syscalls.c
+#include <errno.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/times.h>
+#include <sys/unistd.h>
+#include "devices.h"
+
+#undef errno
+extern int errno;
+
+void _exit(int status) {
+  while(1);
+}
+
+int _open(const char *pathname, int flags, mode_t mode) {
+    errno=ENOSYS;
+    return -1;
+}
+
+int _close(int file) {
+    errno=ENOSYS;
+    return -1;
+}
+
+int _execve(char *name, char **argv, char **env) {
+    errno = ENOSYS;
+    return -1;
+}
+
+int _fork() {
+    errno = ENOSYS;
+    return -1;
+}
+
+int _kill(int pid, int sig) {
+  errno = ENOSYS;
+  return (-1);
+}
+
+int _link(char *old, char *new) {
+  errno = ENOSYS;
+  return -1;
+}
+
+int _lseek(int file, int ptr, int dir) {
+  errno=ENOSYS;
+  return -1;
+}
+
+int _fstat(int file, struct stat *st) {
+  errno=ENOSYS;
+  return -1;
+}
+
+int _stat(const char *filepath, struct stat *st) {
+    errno=ENOSYS;
+    return -1;
+}
+
+clock_t _times(struct tms *buf) {
+   errno=ENOSYS;
+   return -1;
+}
+
+int _unlink(char *name) {
+   errno = ENOSYS;
+   return -1;
+}
+
+int _wait(int status) {
+    errno = ENOSYS;
+    return -1;
+}
+
+/*
+ getpid
+ Return current process ID (only one process).
+*/
+
+int _getpid() {
+  return 1;
+}
+
+/*
+ isatty
+ Query whether output stream is a terminal. For consistency with the other
+ minimal implementations,
+*/
+
+int _isatty(int file) {
+    switch (file){
+    case STDOUT_FILENO:
+    case STDERR_FILENO:
+    case STDIN_FILENO:
+        return 1;
+    default:
+        errno = EBADF;
+        return 0;
+    }
+}
+
+#ifndef STDOUT_USART
+#define STDOUT_USART USART2
+#endif
+
+#ifndef STDERR_USART
+#define STDERR_USART USART2
+#endif
+
+#ifndef STDIN_USART
+#define STDIN_USART USART2
+#endif
+
+/*
+ read
+ Read a character to a file. `libc' subroutines will use this system routine for input from all files, including stdin
+ Returns -1 on error or blocks until the number of characters have been read.
+ */
+
+int _read(int file, char *ptr, int len) {
+    int n;
+    int num = 0;
+    switch (file) {
+    case STDIN_FILENO:
+        for (n = 0; n < len; n++) {
+	  while ((STDIN_USART.SR & (1<<5)) == 0) {}
+            *ptr++ = STDIN_USART.DR & 0xff;
+            num++;
+        }
+        break;
+    default:
+        errno = EBADF;
+        return -1;
+    }
+    return num;
+}
+
+/*
+ write
+ Write a character to a file. `libc' subroutines will use this system routine for output to all files, including stdout
+ Returns -1 on error or number of bytes sent
+ */
+
+int _write(int file, char *ptr, int len) {
+    int n;
+    switch (file) {
+    case STDOUT_FILENO: /* stdout */
+        for (n = 0; n < len; n++) {
+
+    	  while ((STDOUT_USART.SR & (1<<7)) == 0) {}
+          STDOUT_USART.DR = *ptr++;
+        }
+        break;
+    case STDERR_FILENO: /* stderr */
+        for (n = 0; n < len; n++) {
+
+    	  while ((STDERR_USART.SR & (1<<7)) == 0) {}
+          STDERR_USART.DR = *ptr++;
+        }
+        break;
+    default:
+        errno = EBADF;
+        return -1;
+    }
+    return len;
+}
+
+/*
+ sbrk
+ Increase program data space.
+ Malloc and related functions depend on this
+ */
+
+caddr_t _sbrk(int incr) {
+
+    extern char __heap_bottom; /* Defined by the linker */
+    static char *heap_top=&__heap_bottom;
+
+    char *prev_heap_top=heap_top;
+
+    register char * stack_bottom ;
+
+    asm volatile ("MRS %0, msp\n" : "=r" (stack_bottom) );
+
+     if (heap_top + incr + 0x100 > stack_bottom)
+     {
+       _write (STDERR_FILENO, "Out of heap space !!!\r\n", 23);
+       errno = ENOMEM;
+       return  (caddr_t) -1;
+       exit(255);
+     } else {
+       heap_top += incr;
+       return (caddr_t) prev_heap_top;
+     }
+}
+
+/*
+ environ
+ A pointer to a list of environment variables and their values.
+ For a minimal environment, this empty list is adequate:
+ */
+
+char *__env[1] = { 0 };
+char **environ = __env;
+File: ./sys/init.c
+#include "devices.h"
+#include "clock.h"
+#include "power.h"
+#include "serial_io.h"
+#include "cm4.h"
+
+
+void set_FLASH_latency(int32_t latency) {
+  FLASH.ACR= 
+    (FLASH.ACR & ~(15<<0) & ~(7<<8)) | 
+    ((((latency>0)?7:0)<<8)|((latency & 15)<<0));
+  /* if latency > 0, we also enable cache and prefetch */ 
+  while(((FLASH.ACR>>0)&15)!=latency);
+}
+
+void fpu_init() { 
+  /* enable FPU for unpriviledged access  */
+  FPU_CPACR |= (3<<20)|(3<<22);
+  __DSB();
+}
+
+void enable_io_compensation() {
+  enable_SYSCFG();
+  SYSCFG.CMPCR|=(1<<0);
+  while((SYSCFG.CMPCR & (1<<8)) == 0);
+}
+
+void clock_init() {
+  set_MCO(MCO1_PLL,5,MCO2_SYS,5);
+  set_voltage_scale(scale1);
+  start_Overdrive();
+  start_PLL(PLLSRC_HSI,16,336,2,7,7);
+  set_bus_clock_dividers_exp(0,2,1);
+  set_FLASH_latency(5);
+  set_SYSCLK(SW_PLL_P);
+  enable_io_compensation();
+  enable_MCO_GPIO();
+}
+
+void software_init_hook() { /* called from crt0.S */
+  fpu_init();
+  clock_init();
+  serial_io_init();
+}
+
+  
+File: ./sys/serial_io.h
+#include<stdint.h>
+
+void enable_USART2_GPIO();
+
+void setup_USART2(uint32_t baudrate);
+
+void serial_io_init();
+ 
+File: ./sys/clock.h
+#include<stdint.h>
+
+#define HSI_FREQ  16
+#define HSE_FREQ  00
+#define MHz  1000000
+
+typedef enum {PLLSRC_HSI=0,PLLSRC_HSE=1} PLLSRC;
+typedef enum {SW_HSI=0,SW_HSE=1,SW_PLL_P=2,SW_PLL_R=3} SW;
+typedef enum {MCO1_HSI=0,MCO1_LSE=1,MCO1_HSE=2,MCO1_PLL=3} MCO1SRC;
+typedef enum {MCO2_SYS=0,MCO2_I2S=1,MCO2_HSE=2,MCO2_PLL=3} MCO2SRC;
+
+void start_PLL(PLLSRC SRC,
+	       int32_t M,int32_t N,int32_t P,int32_t Q,int32_t R);
+void stop_PLL();
+
+void set_SYSCLK(SW SRC);
+void set_bus_clock_dividers_exp(uint32_t HPRE__exp,
+				  uint32_t PPRE1_exp,
+				  uint32_t PPRE2_exp);
+
+void set_MCO(MCO1SRC SRC1,uint32_t DIV1,MCO2SRC SRC2,uint32_t DIV2);
+void enable_MCO_GPIO();
+
+uint32_t get_PLL_PCLK();
+uint32_t get_PLL_RCLK();
+uint32_t get_SYSCLK();
+uint32_t get_AHBCLK();
+uint32_t get_APB1CLK();
+uint32_t get_APB2CLK();
+uint32_t get_APB1TIMCLK();
+uint32_t get_APB2TIMCLK();
+
+File: ./sys/devices.h
+#ifndef __IO_H
+#define __IO_H
+
+#include<stdint.h>
+#include "cm4.h"
+
+#define __reserved(offset) \
+  uint32_t _reserved_ ## offset
+
+#define __reserved_interval(offset1,offset2) \
+  uint32_t _reserved_ ## offset1 ## _ ## offset2[((offset2)-(offset1))/4]
+
+/* PM §4.2.10 */ 
+struct MPU_registers {
+  uint32_t TYPER;
+  uint32_t CTRL;
+  uint32_t RNR;
+  uint32_t RBAR;
+  uint32_t RASR;
+  uint32_t RBAR_A1;
+  uint32_t RASR_A1;
+  uint32_t RBAR_A2;
+  uint32_t RASR_A2;
+  uint32_t RBAR_A3;
+  uint32_t RASR_A3;
+};
+
+/* PM §4.3.11 */ 
+struct NVIC_registers {
+  uint32_t ISER[3];
+  __reserved_interval(0x0c,0x80);
+  uint32_t ICER[3];
+  __reserved_interval(0x8c,0x100);
+  uint32_t ISPR[3];
+  __reserved_interval(0x10c,0x180);
+  uint32_t ICPR[3];
+  __reserved_interval(0x18c,0x200);
+  uint32_t IABR[3];
+  __reserved_interval(0x20c,0x300);
+  uint8_t  IP[81];
+  uint8_t _reserved_bytes[3];
+};
+
+/* PM §4.4.19 */ 
+struct SCB_registers {
+  uint32_t CPUID;
+  uint32_t ICSR;
+  uint32_t VTOR;
+  uint32_t AIRCR;
+  uint32_t SCR;
+  uint32_t CCR;
+  uint32_t SHPR1;
+  uint32_t SHPR2;
+  uint32_t SHPR3;
+  uint32_t SHCRS;
+  uint32_t CFSR;
+  uint32_t HFSR;
+  uint32_t MMAR;
+  uint32_t BFAR;
+  uint32_t AFSR;
+};
+
+/* PM §4.5.6 */ 
+struct STK_registers {
+  uint32_t CTRL;
+  uint32_t LOAD;
+  uint32_t VAL;
+  uint32_t CALIB;
+};
+
+/* PM §4.6 */ 
+struct FPU_registers {
+  __reserved(0x0);
+  uint32_t CCR;
+  uint32_t CAR;
+  uint32_t DSCR;
+};
+
+
+/* RM §3.6.7 */ 
+struct FLASH_registers {
+  uint32_t ACR;
+  uint32_t KEYR;
+  uint32_t OPTKEYR;
+  uint32_t SR;
+  uint32_t CR;
+  uint32_t OPTCR;  
+};
+
+/* RM §4.4.4 */
+struct CRC_registers {
+  uint32_t DR;
+  uint32_t ICR;
+  uint32_t CR;
+};
+
+/* RM §5.5 */
+struct PWR_registers {
+  uint32_t CR;
+  uint32_t CSR;
+};
+
+/* RM §6.3.28 */
+struct RCC_registers {
+  uint32_t CR;
+  uint32_t PLLCFGR;
+  uint32_t CFGR;
+  uint32_t CIR;
+  uint32_t AHB1RSTR;
+  uint32_t AHB2RSTR;
+  uint32_t AHB3RSTR;
+  __reserved(0x1c);
+  uint32_t APB1RSTR;
+  uint32_t APB2RSTR;
+  __reserved(0x28);
+  __reserved(0x2c);
+  uint32_t AHB1ENR;
+  uint32_t AHB2ENR;
+  uint32_t AHB3ENR;
+  __reserved(0x3c);
+  uint32_t APB1ENR;
+  uint32_t APB2ENR;
+  __reserved(0x48);
+  __reserved(0x4c);
+  uint32_t AHB1LPENR;
+  uint32_t AHB2LPENR;
+  uint32_t AHB3LPENR;
+  __reserved(0x5c);
+  uint32_t APB1LPENR;
+  uint32_t APB2LPENR;
+  __reserved(0x68);
+  __reserved(0x6c);
+  uint32_t BDCR;
+  uint32_t CSR;
+  __reserved(0x78);
+  __reserved(0x7c);
+  uint32_t SSCGR;
+  uint32_t PLLI2SCFGR;
+  uint32_t PLLSAICFGR;
+  uint32_t DCKCFGR;
+  uint32_t CKGATENR;
+  uint32_t DCKCFGR2;
+};
+
+/* RM §7.4.11 */
+struct GPIO_registers {
+  uint32_t MODER;
+  uint32_t OTYPER;
+  uint32_t OSPEEDR;
+  uint32_t PUPDR;
+  uint32_t IDR;
+  uint32_t ODR;
+  uint32_t BSRR;
+  uint32_t LCKR;
+  uint32_t AFRL;
+  uint32_t AFRH;
+};
+
+/* RM §8.2.9 */
+struct SYSCFG_registers {
+  uint32_t MEMRMP;
+  uint32_t PMC;
+  uint32_t EXTICR1;
+  uint32_t EXTICR2;
+  uint32_t EXTICR3;
+  uint32_t EXTICR4;
+  __reserved(0x18);
+  __reserved(0x1c);
+  uint32_t CMPCR;
+  __reserved(0x24);
+  __reserved(0x28);
+  uint32_t CFGR;
+};
+
+/* RM §9.5.11 */
+struct DMA_Sx_registers {
+  uint32_t CR;
+  uint32_t NDTR;
+  volatile void* PAR;
+  volatile void* M0AR;
+  volatile void* M1AR;
+  uint32_t FCR;
+};
+struct DMA_registers {
+  uint32_t LISR;
+  uint32_t HISR;
+  uint32_t LIFCR;
+  uint32_t HIFCR;
+  struct DMA_Sx_registers S[8];
+};
+
+/* RM §10.3.7 */
+struct EXTI_registers {
+  uint32_t IMR;
+  uint32_t EMR;
+  uint32_t RTSR;
+  uint32_t FTSR;
+  uint32_t SWIER;
+  uint32_t PR;
+};
+
+/* RM §11.8 */
+struct FMC_registers {
+  uint32_t BCR1;
+  uint32_t BCR2;
+  uint32_t BCR3;
+  uint32_t BCR4;
+  uint32_t BTR1;
+  uint32_t BTR2;
+  uint32_t BTR3;
+  uint32_t BTR4;
+  uint32_t BWTR1;
+  uint32_t BWTR2;
+  uint32_t BWTR3;
+  uint32_t BWTR4;
+  uint32_t PCR;
+  uint32_t SR;
+  uint32_t PMEM;
+  uint32_t PATT;
+  uint32_t ECCR;
+  uint32_t SDCR1;
+  uint32_t SDCR2;
+  uint32_t SDTR1;
+  uint32_t SDTR2;
+  uint32_t SDCMR;
+  uint32_t SDRTR;
+  uint32_t SDSR;
+};
+
+/* RM §12.5.14 */
+struct QUADSPI_registers {
+  uint32_t CR;
+  uint32_t DCR;
+  uint32_t SR;
+  uint32_t FCR;
+  uint32_t DLR;
+  uint32_t CCR;
+  uint32_t AR;
+  uint32_t ABR;
+  uint32_t DR;
+  uint32_t PSMKR;
+  uint32_t PSMAR;
+  uint32_t PIR;
+  uint32_t LPTR;
+};
+
+/* RM §13.13.18 */
+struct ADCx_registers {
+  uint32_t SR;
+  uint32_t CR1;
+  uint32_t CR2;
+  uint32_t SMPR1;
+  uint32_t SMPR2;
+  uint32_t JOFR1;
+  uint32_t JOFR2;
+  uint32_t JOFR3;
+  uint32_t JOFR4;
+  uint32_t HTR;
+  uint32_t LTR;
+  uint32_t SQR1;
+  uint32_t SQR2;
+  uint32_t SQR3;
+  uint32_t JSQR;
+  uint32_t JDR1;
+  uint32_t JDR2;
+  uint32_t JDR3;
+  uint32_t JDR4;
+  uint32_t DR;
+};
+
+struct ADC_common_registers {
+  uint32_t CSR;
+  uint32_t CCR;
+  uint32_t CDR;
+};
+
+
+/* RM §14.5.15 */
+struct DAC_registers {
+  uint32_t CR;
+  uint32_t SWTRIGR;
+  uint32_t DHR12R1;
+  uint32_t DHR12L1;
+  uint32_t DHR8R1;
+  uint32_t DHR12R2;
+  uint32_t DHR12L2;
+  uint32_t DHR8R2;
+  uint32_t DHR12RD;
+  uint32_t DHR12LD;
+  uint32_t DHR8RD;
+  uint32_t DOR1;
+  uint32_t DOR2;
+  uint32_t SR;
+};
+
+/* RM §15.8.12 */
+struct DCMI_registers {
+  uint32_t CR;
+  uint32_t SR;
+  uint32_t RIS;
+  uint32_t IER;
+  uint32_t MIS;
+  uint32_t ICR;
+  uint32_t ESCR;
+  uint32_t ESUR;
+  uint32_t CWSTRT;
+  uint32_t CWSIZE;
+  uint32_t DR;
+};
+
+/* RM §16.4.21 TIM1,8 */
+/* RM §17.4.21 TIM2,3,4,5 */
+/* RM §18.4.13 TIM9,12 */
+/* RM §18.5.1  TIM10,11,13,14 */
+/* RM §19.4.9  TIM6,7 */
+struct TIMx_registers {
+  uint32_t CR1;
+  uint32_t CR2;
+  uint32_t SMCR;
+  uint32_t DIER;
+  uint32_t SR;
+  uint32_t EGR;
+  uint32_t CCMR1;
+  uint32_t CCMR2;
+  uint32_t CCER;
+  uint32_t CNT;
+  uint32_t PSC;
+  uint32_t ARR;
+  uint32_t RCR;
+  uint32_t CCR1;
+  uint32_t CCR2;
+  uint32_t CCR3;
+  uint32_t CCR4;
+  uint32_t BDTR;
+  uint32_t DCR;
+  uint32_t DMAR;
+  uint32_t OR;
+};
+
+/* RM §20.4.5 */
+struct IWDG_registers {
+  uint32_t KR;
+  uint32_t PR;
+  uint32_t RLR;
+  uint32_t SR;
+};
+
+/* RM §21.6.4 */
+struct WWDG_registers {
+  uint32_t CR;
+  uint32_t CFR;
+  uint32_t SR;
+};
+
+/* RM §22.6.21 */
+struct RTC_registers {
+  uint32_t TR;
+  uint32_t DR;
+  uint32_t CR;
+  uint32_t ISR;
+  uint32_t PRER;
+  uint32_t WUTR;
+  uint32_t CALIBR;
+  uint32_t ALRMAR;
+  uint32_t ALRMBR;
+  uint32_t WPR;
+  uint32_t SSR;
+  uint32_t SHIFTR;
+  uint32_t TSTR;
+  uint32_t TSSSR;
+  uint32_t CALR;
+  uint32_t TAFCR;
+  uint32_t ALRMASSR;
+  uint32_t ALRMBSSR;
+  uint32_t BKPR[20];
+};
+
+/* RM §23.7.12 */
+struct FMPI2C_registers {
+  uint32_t CR1;
+  uint32_t CR2;
+  uint32_t OAR1;
+  uint32_t OAR2;
+  uint32_t TIMINGR;
+  uint32_t TIMEOUTR;
+  uint32_t ISR;
+  uint32_t ICR;
+  uint32_t PECR;
+  uint32_t RXDR;
+  uint32_t TXDR;
+};
+
+/* RM §24.6.14 */
+struct I2C_registers {
+  uint32_t CR1;
+  uint32_t CR2;
+  uint32_t OAR1;
+  uint32_t OAR2;
+  uint32_t DR;
+  uint32_t SR1;
+  uint32_t SR2;
+  uint32_t CCR;
+  uint32_t TRISE;
+  uint32_t FLTR;
+};
+
+/* RM §25.6.8 */
+struct USART_registers {
+  uint32_t SR;
+  uint32_t DR;
+  uint32_t BRR;
+  uint32_t CR1;
+  uint32_t CR2;
+  uint32_t CR3;
+  uint32_t GTPR;
+};
+
+/* RM §26.7.10 */
+struct SPI_I2S_registers {
+  uint32_t CR1;
+  uint32_t CR2;
+  uint32_t SR;
+  uint32_t DR;
+  uint32_t CRCPR;
+  uint32_t RXCRCR;
+  uint32_t TXCRCR;
+  uint32_t I2SCFGR;
+  uint32_t I2SPR;
+};
+
+/* RM §27.5.10 */
+struct SPDIFRX_registers {
+  uint32_t CR;
+  uint32_t IMR;
+  uint32_t SR;
+  uint32_t IFCR;
+  uint32_t DR;
+  uint32_t CSR;
+  uint32_t DIR;
+};
+
+/* RM §28.5.10 */
+struct SAI_x_registers {
+  uint32_t CR1;
+  uint32_t CR2;
+  uint32_t FRCR;
+  uint32_t SLOTR;
+  uint32_t IM;
+  uint32_t SR;
+  uint32_t CLRFR;
+  uint32_t DR;
+};
+
+struct SAI_registers {
+  uint32_t GCR;
+  struct SAI_x_registers A;
+  struct SAI_x_registers B;
+};
+
+/* RM §29.8.16 */
+struct SDIO_registers {
+  uint32_t POWER;
+  uint32_t CLKCR;
+  uint32_t CMD;
+  uint32_t RESPCMD;
+  uint32_t RESP1;
+  uint32_t RESP2;
+  uint32_t RESP3;
+  uint32_t RESP4;
+  uint32_t DTIMER;
+  uint32_t DLEN;
+  uint32_t DCTRL;
+  uint32_t DCOUNT;
+  uint32_t STA;
+  uint32_t ICR;
+  uint32_t MASK;
+  __reserved(0x40);
+  __reserved(0x44);
+  uint32_t FIFOCNT;
+  __reserved_interval(0x4c,0x80);
+  uint32_t FIFO[32];
+};
+  
+/* RM §30.9.5 */
+struct bxCAN_TxRx_registers {
+  uint32_t IR;
+  uint32_t DTR;
+  uint32_t DLR;
+  uint32_t DHR;
+};
+
+struct bxCAN_registers {
+  uint32_t MCR;
+  uint32_t MSR;
+  uint32_t TSR;
+  uint32_t RF0R;
+  uint32_t RF1R;
+  uint32_t IER;
+  uint32_t ESR;
+  uint32_t BTR;
+  __reserved_interval(0x20,0x180);
+  struct bxCAN_TxRx_registers Tx[3];
+  struct bxCAN_TxRx_registers Rx[2];
+  __reserved_interval(0x1d0,0x200);
+  uint32_t FMR;
+  uint32_t FM1R;
+  __reserved(0x208);
+  uint32_t FS1R;
+  __reserved(0x210);
+  uint32_t FFA1R;
+  __reserved(0x218);
+  uint32_t FA1R;
+  __reserved_interval(0x220,0x240);
+  struct {uint32_t R1; uint32_t R2;} F[28];
+};
+
+/* RM §32.7.7 */
+struct OTG_registers {
+   /* TODO */
+};
+
+/* RM §32.7.7 */
+struct HDMI_CEC_registers {
+  uint32_t CR;
+  uint32_t CFGR;
+  uint32_t TXDR;
+  uint32_t RXDR;
+  uint32_t ISR;
+  uint32_t IER;
+};
+
+/* RM §33.18 */
+struct DBGMCU_registers {
+  uint32_t IDCODE;
+  uint32_t CR;
+  uint32_t APB1FZ;
+  uint32_t APB2FZ;
+};
+
+/* Constant values */
+
+extern const uint16_t Package_data;
+extern const uint16_t TS_CAL2;
+extern const uint16_t TS_CAL1;
+extern const uint16_t VREFIN_CAL;
+extern const uint16_t Flash_size;
+extern const uint32_t U_ID[3];
+
+/* Core Devices base addresses */
+
+extern volatile struct DBGMCU_registers DBG;
+
+extern volatile struct FPU_registers FPU;
+extern volatile uint32_t NVIC_STIR;
+extern volatile struct MPU_registers MPU;
+extern volatile uint32_t FPU_CPACR;
+extern volatile struct SCB_registers SCB;
+extern volatile struct NVIC_registers NVIC;
+extern volatile struct STK_registers SysTick;
+
+/* Devices base addresses */
+
+extern volatile struct QUADSPI_registers QUADSPI;
+
+extern volatile struct DCMI_registers DCMI;
+extern volatile struct OTG_registers USB_OTG_FS;
+
+extern volatile struct OTG_registers USB_OTG_HS;
+extern volatile struct DMA_registers DMA2;
+extern volatile struct DMA_registers DMA1;
+extern uint32_t BKPSRAM[1024];
+extern volatile struct FLASH_registers FLASH;
+extern volatile struct RCC_registers RCC;
+extern volatile struct CRC_registers CRC;
+extern volatile struct GPIO_registers GPIOH;
+extern volatile struct GPIO_registers GPIOG;
+extern volatile struct GPIO_registers GPIOF;
+extern volatile struct GPIO_registers GPIOE;
+extern volatile struct GPIO_registers GPIOD;
+extern volatile struct GPIO_registers GPIOC;
+extern volatile struct GPIO_registers GPIOB;
+extern volatile struct GPIO_registers GPIOA;
+
+extern volatile struct SAI_registers SAI2;
+extern volatile struct SAI_registers SAI1;
+
+extern volatile struct TIMx_registers TIM11;
+extern volatile struct TIMx_registers TIM10;
+extern volatile struct TIMx_registers TIM9;
+extern volatile struct EXTI_registers EXTI;
+extern volatile struct SYSCFG_registers SYSCFG;
+extern volatile struct SPI_registers SPI4;
+extern volatile struct SPI_registers SPI1;
+extern volatile struct SDIO_registers SDMMC;
+extern volatile struct ADCx_registers ADC1;
+extern volatile struct ADCx_registers ADC2;
+extern volatile struct ADCx_registers ADC3;
+extern volatile struct ADC_common_registers ADC_common;
+extern volatile struct USART_registers USART6;
+extern volatile struct USART_registers USART1;
+extern volatile struct TIMx_registers TIM8;
+extern volatile struct TIMx_registers TIM1;
+
+extern volatile struct DAC_registers DAC;
+extern volatile struct PWR_registers PWR;
+extern volatile struct HDMI_CEC_registers HDMI_CEC;
+extern volatile struct bxCAN_registers CAN2;
+extern volatile struct bxCAN_registers CAN1;
+extern volatile struct FMPI2C_registers FMPI2C1;
+extern volatile struct I2C_registers I2C3;
+extern volatile struct I2C_registers I2C2;
+extern volatile struct I2C_registers I2C1;
+extern volatile struct USART_registers UART5;
+extern volatile struct USART_registers UART4;
+extern volatile struct USART_registers USART3;
+extern volatile struct USART_registers USART2;
+extern volatile struct SPDIF_RX_registers SPDIF_RX;
+extern volatile struct SPI_I2S_registers SPI3_I2S3;
+extern volatile struct SPI_I2S_registers SPI2_I2S2;
+extern volatile struct IWDG_registers IWDG;
+extern volatile struct WWDG_registers WWDG;
+extern volatile struct RTC_registers RTC_BKP;
+extern volatile struct TIMx_registers TIM14;
+extern volatile struct TIMx_registers TIM13;
+extern volatile struct TIMx_registers TIM12;
+extern volatile struct TIMx_registers TIM7;
+extern volatile struct TIMx_registers TIM6;
+extern volatile struct TIMx_registers TIM5;
+extern volatile struct TIMx_registers TIM4;
+extern volatile struct TIMx_registers TIM3;
+extern volatile struct TIMx_registers TIM2;
+
+#define __set_bit(_w,_i) ((_w)|=(1<<(_i)))
+#define __clr_bit(_w,_i) ((_w) &= ~(1<<(_i)))
+#define __really_inline__ static inline __attribute__((always_inline)) 
+#define __sync __DSB
+
+#define __declare_device_control(name,bus,bus_bit) \
+  void __really_inline__ enable_##name() { \
+    __set_bit(RCC.bus##ENR,bus_bit); __sync(); } \
+  void __really_inline__ low_power_enable_##name() { \
+    __set_bit(RCC.bus##LPENR,bus_bit); __sync(); } \
+  void __really_inline__ disable_##name() { \
+    __clr_bit(RCC.bus##ENR,bus_bit); __sync(); } \
+  void __really_inline__ low_power_disable_## name() { \
+    __clr_bit(RCC.bus##LPENR,bus_bit); __sync(); } \
+  void __really_inline__ reset_##name() { \
+    __set_bit(RCC.bus##RSTR,bus_bit); __sync(); } \
+\
+
+/* __declare_device_control(FMC,AHB3,0) FMC not available in LQFP64 package */
+__declare_device_control(QUADSPI,AHB3,1)
+
+__declare_device_control(DCMI,AHB2,0)
+__declare_device_control(USB_OTG_FS,AHB2,7)
+
+__declare_device_control(USB_OTG_HS,AHB1,29)
+__declare_device_control(DMA2,AHB1,22)
+__declare_device_control(DMA1,AHB1,21)
+__declare_device_control(CRC,AHB1,12)
+__declare_device_control(GPIOH,AHB1,7)
+__declare_device_control(GPIOG,AHB1,6)
+__declare_device_control(GPIOF,AHB1,5)
+__declare_device_control(GPIOE,AHB1,4)
+__declare_device_control(GPIOD,AHB1,3)
+__declare_device_control(GPIOC,AHB1,2)
+__declare_device_control(GPIOB,AHB1,1)
+__declare_device_control(GPIOA,AHB1,0)
+
+__declare_device_control(SAI2,APB2,23)
+__declare_device_control(SAI1,APB2,22)
+
+__declare_device_control(TIM11,APB2,18)
+__declare_device_control(TIM10,APB2,17)
+__declare_device_control(TIM9,APB2,16)
+__declare_device_control(SYSCFG,APB2,14)
+__declare_device_control(SPI4,APB2,13)
+__declare_device_control(SPI1,APB2,12)
+__declare_device_control(SDMMC,APB2,11)
+__declare_device_control(ADC,APB2,8)
+__declare_device_control(ADC1,APB2,8)
+__declare_device_control(ADC2,APB2,8)
+__declare_device_control(ADC3,APB2,8)
+__declare_device_control(USART6,APB2,5)
+__declare_device_control(USART1,APB2,4)
+__declare_device_control(TIM8,APB2,1)
+__declare_device_control(TIM1,APB2,0)
+
+__declare_device_control(DAC,APB1,29)
+__declare_device_control(PWR,APB1,28)
+__declare_device_control(HDMI_CEC,APB1,27)
+__declare_device_control(CAN2,APB1,26)
+__declare_device_control(CAN1,APB1,25)
+__declare_device_control(FMPI2C1,APB1,24)
+__declare_device_control(I2C3,APB1,23)
+__declare_device_control(I2C2,APB1,22)
+__declare_device_control(I2C1,APB1,21)
+__declare_device_control(UART5,APB1,20)
+__declare_device_control(UART4,APB1,19)
+__declare_device_control(USART3,APB1,18)
+__declare_device_control(USART2,APB1,17)
+__declare_device_control(SPDIF_RX,APB1,16)
+__declare_device_control(SPI3_I2S3,APB1,15)
+__declare_device_control(SPI2_I2S2,APB1,14)
+__declare_device_control(WWDG,APB1,11)
+__declare_device_control(TIM14,APB1,8)
+__declare_device_control(TIM13,APB1,7)
+__declare_device_control(TIM12,APB1,6)
+__declare_device_control(TIM7,APB1,5)
+__declare_device_control(TIM6,APB1,4)
+__declare_device_control(TIM5,APB1,3)
+__declare_device_control(TIM4,APB1,2)
+__declare_device_control(TIM3,APB1,1)
+__declare_device_control(TIM2,APB1,0)
+
+
+
+
+
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+File: ./sys/cmsis_gcc.h
+/**************************************************************************//**
+ * @file     cmsis_gcc.h
+ * @brief    CMSIS Cortex-M Core Function/Instruction Header File
+ * @version  V4.30
+ * @date     20. October 2015
+ ******************************************************************************/
+/* Copyright (c) 2009 - 2015 ARM LIMITED
+
+   All rights reserved.
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions are met:
+   - Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+   - Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in the
+     documentation and/or other materials provided with the distribution.
+   - Neither the name of ARM nor the names of its contributors may be used
+     to endorse or promote products derived from this software without
+     specific prior written permission.
+   *
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+   ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS AND CONTRIBUTORS BE
+   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+   POSSIBILITY OF SUCH DAMAGE.
+   ---------------------------------------------------------------------------*/
+
+#ifndef __CMSIS_GCC_H
+#define __CMSIS_GCC_H
+
+/* ignore some GCC warnings */
+#if defined ( __GNUC__ )
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Wconversion"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
+
+
+/* ###########################  Core Function Access  ########################### */
+/** \ingroup  CMSIS_Core_FunctionInterface
+    \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
+  @{
+ */
+
+/**
+  \brief   Enable IRQ Interrupts
+  \details Enables IRQ interrupts by clearing the I-bit in the CPSR.
+           Can only be executed in Privileged modes.
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __enable_irq(void)
+{
+  __ASM volatile ("cpsie i" : : : "memory");
+}
+
+
+/**
+  \brief   Disable IRQ Interrupts
+  \details Disables IRQ interrupts by setting the I-bit in the CPSR.
+  Can only be executed in Privileged modes.
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_irq(void)
+{
+  __ASM volatile ("cpsid i" : : : "memory");
+}
+
+
+/**
+  \brief   Get Control Register
+  \details Returns the content of the Control Register.
+  \return               Control Register value
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_CONTROL(void)
+{
+  uint32_t result;
+
+  __ASM volatile ("MRS %0, control" : "=r" (result) );
+  return(result);
+}
+
+
+/**
+  \brief   Set Control Register
+  \details Writes the given value to the Control Register.
+  \param [in]    control  Control Register value to set
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_CONTROL(uint32_t control)
+{
+  __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+}
+
+
+/**
+  \brief   Get IPSR Register
+  \details Returns the content of the IPSR Register.
+  \return               IPSR Register value
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_IPSR(void)
+{
+  uint32_t result;
+
+  __ASM volatile ("MRS %0, ipsr" : "=r" (result) );
+  return(result);
+}
+
+
+/**
+  \brief   Get APSR Register
+  \details Returns the content of the APSR Register.
+  \return               APSR Register value
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_APSR(void)
+{
+  uint32_t result;
+
+  __ASM volatile ("MRS %0, apsr" : "=r" (result) );
+  return(result);
+}
+
+
+/**
+  \brief   Get xPSR Register
+  \details Returns the content of the xPSR Register.
+
+    \return               xPSR Register value
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_xPSR(void)
+{
+  uint32_t result;
+
+  __ASM volatile ("MRS %0, xpsr" : "=r" (result) );
+  return(result);
+}
+
+
+/**
+  \brief   Get Process Stack Pointer
+  \details Returns the current value of the Process Stack Pointer (PSP).
+  \return               PSP Register value
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_PSP(void)
+{
+  register uint32_t result;
+
+  __ASM volatile ("MRS %0, psp\n"  : "=r" (result) );
+  return(result);
+}
+
+
+/**
+  \brief   Set Process Stack Pointer
+  \details Assigns the given value to the Process Stack Pointer (PSP).
+  \param [in]    topOfProcStack  Process Stack Pointer value to set
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_PSP(uint32_t topOfProcStack)
+{
+  __ASM volatile ("MSR psp, %0\n" : : "r" (topOfProcStack) : "sp");
+}
+
+
+/**
+  \brief   Get Main Stack Pointer
+  \details Returns the current value of the Main Stack Pointer (MSP).
+  \return               MSP Register value
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_MSP(void)
+{
+  register uint32_t result;
+
+  __ASM volatile ("MRS %0, msp\n" : "=r" (result) );
+  return(result);
+}
+
+
+/**
+  \brief   Set Main Stack Pointer
+  \details Assigns the given value to the Main Stack Pointer (MSP).
+
+    \param [in]    topOfMainStack  Main Stack Pointer value to set
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_MSP(uint32_t topOfMainStack)
+{
+  __ASM volatile ("MSR msp, %0\n" : : "r" (topOfMainStack) : "sp");
+}
+
+
+/**
+  \brief   Get Priority Mask
+  \details Returns the current state of the priority mask bit from the Priority Mask Register.
+  \return               Priority Mask value
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_PRIMASK(void)
+{
+  uint32_t result;
+
+  __ASM volatile ("MRS %0, primask" : "=r" (result) );
+  return(result);
+}
+
+
+/**
+  \brief   Set Priority Mask
+  \details Assigns the given value to the Priority Mask Register.
+  \param [in]    priMask  Priority Mask
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_PRIMASK(uint32_t priMask)
+{
+  __ASM volatile ("MSR primask, %0" : : "r" (priMask) : "memory");
+}
+
+
+#if       (__CORTEX_M >= 0x03U)
+
+/**
+  \brief   Enable FIQ
+  \details Enables FIQ interrupts by clearing the F-bit in the CPSR.
+           Can only be executed in Privileged modes.
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __enable_fault_irq(void)
+{
+  __ASM volatile ("cpsie f" : : : "memory");
+}
+
+
+/**
+  \brief   Disable FIQ
+  \details Disables FIQ interrupts by setting the F-bit in the CPSR.
+           Can only be executed in Privileged modes.
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_fault_irq(void)
+{
+  __ASM volatile ("cpsid f" : : : "memory");
+}
+
+
+/**
+  \brief   Get Base Priority
+  \details Returns the current value of the Base Priority register.
+  \return               Base Priority register value
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_BASEPRI(void)
+{
+  uint32_t result;
+
+  __ASM volatile ("MRS %0, basepri" : "=r" (result) );
+  return(result);
+}
+
+
+/**
+  \brief   Set Base Priority
+  \details Assigns the given value to the Base Priority register.
+  \param [in]    basePri  Base Priority value to set
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_BASEPRI(uint32_t value)
+{
+  __ASM volatile ("MSR basepri, %0" : : "r" (value) : "memory");
+}
+
+
+/**
+  \brief   Set Base Priority with condition
+  \details Assigns the given value to the Base Priority register only if BASEPRI masking is disabled,
+           or the new value increases the BASEPRI priority level.
+  \param [in]    basePri  Base Priority value to set
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_BASEPRI_MAX(uint32_t value)
+{
+  __ASM volatile ("MSR basepri_max, %0" : : "r" (value) : "memory");
+}
+
+
+/**
+  \brief   Get Fault Mask
+  \details Returns the current value of the Fault Mask register.
+  \return               Fault Mask register value
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_FAULTMASK(void)
+{
+  uint32_t result;
+
+  __ASM volatile ("MRS %0, faultmask" : "=r" (result) );
+  return(result);
+}
+
+
+/**
+  \brief   Set Fault Mask
+  \details Assigns the given value to the Fault Mask register.
+  \param [in]    faultMask  Fault Mask value to set
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_FAULTMASK(uint32_t faultMask)
+{
+  __ASM volatile ("MSR faultmask, %0" : : "r" (faultMask) : "memory");
+}
+
+#endif /* (__CORTEX_M >= 0x03U) */
+
+
+#if       (__CORTEX_M == 0x04U) || (__CORTEX_M == 0x07U)
+
+/**
+  \brief   Get FPSCR
+  \details Returns the current value of the Floating Point Status/Control register.
+  \return               Floating Point Status/Control register value
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_FPSCR(void)
+{
+#if (__FPU_PRESENT == 1U) && (__FPU_USED == 1U)
+  uint32_t result;
+
+  /* Empty asm statement works as a scheduling barrier */
+  __ASM volatile ("");
+  __ASM volatile ("VMRS %0, fpscr" : "=r" (result) );
+  __ASM volatile ("");
+  return(result);
+#else
+   return(0);
+#endif
+}
+
+
+/**
+  \brief   Set FPSCR
+  \details Assigns the given value to the Floating Point Status/Control register.
+  \param [in]    fpscr  Floating Point Status/Control value to set
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
+{
+#if (__FPU_PRESENT == 1U) && (__FPU_USED == 1U)
+  /* Empty asm statement works as a scheduling barrier */
+  __ASM volatile ("");
+  __ASM volatile ("VMSR fpscr, %0" : : "r" (fpscr) : "vfpcc");
+  __ASM volatile ("");
+#endif
+}
+
+#endif /* (__CORTEX_M == 0x04U) || (__CORTEX_M == 0x07U) */
+
+
+
+/*@} end of CMSIS_Core_RegAccFunctions */
+
+
+/* ##########################  Core Instruction Access  ######################### */
+/** \defgroup CMSIS_Core_InstructionInterface CMSIS Core Instruction Interface
+  Access to dedicated instructions
+  @{
+*/
+
+/* Define macros for porting to both thumb1 and thumb2.
+ * For thumb1, use low register (r0-r7), specified by constraint "l"
+ * Otherwise, use general registers, specified by constraint "r" */
+#if defined (__thumb__) && !defined (__thumb2__)
+#define __CMSIS_GCC_OUT_REG(r) "=l" (r)
+#define __CMSIS_GCC_USE_REG(r) "l" (r)
+#else
+#define __CMSIS_GCC_OUT_REG(r) "=r" (r)
+#define __CMSIS_GCC_USE_REG(r) "r" (r)
+#endif
+
+/**
+  \brief   No Operation
+  \details No Operation does nothing. This instruction can be used for code alignment purposes.
+ */
+__attribute__((always_inline)) __STATIC_INLINE void __NOP(void)
+{
+  __ASM volatile ("nop");
+}
+
+
+/**
+  \brief   Wait For Interrupt
+  \details Wait For Interrupt is a hint instruction that suspends execution until one of a number of events occurs.
+ */
+__attribute__((always_inline)) __STATIC_INLINE void __WFI(void)
+{
+  __ASM volatile ("wfi");
+}
+
+
+/**
+  \brief   Wait For Event
+  \details Wait For Event is a hint instruction that permits the processor to enter
+    a low-power state until one of a number of events occurs.
+ */
+__attribute__((always_inline)) __STATIC_INLINE void __WFE(void)
+{
+  __ASM volatile ("wfe");
+}
+
+
+/**
+  \brief   Send Event
+  \details Send Event is a hint instruction. It causes an event to be signaled to the CPU.
+ */
+__attribute__((always_inline)) __STATIC_INLINE void __SEV(void)
+{
+  __ASM volatile ("sev");
+}
+
+
+/**
+  \brief   Instruction Synchronization Barrier
+  \details Instruction Synchronization Barrier flushes the pipeline in the processor,
+           so that all instructions following the ISB are fetched from cache or memory,
+           after the instruction has been completed.
+ */
+__attribute__((always_inline)) __STATIC_INLINE void __ISB(void)
+{
+  __ASM volatile ("isb 0xF":::"memory");
+}
+
+
+/**
+  \brief   Data Synchronization Barrier
+  \details Acts as a special kind of Data Memory Barrier.
+           It completes when all explicit memory accesses before this instruction complete.
+ */
+__attribute__((always_inline)) __STATIC_INLINE void __DSB(void)
+{
+  __ASM volatile ("dsb 0xF":::"memory");
+}
+
+
+/**
+  \brief   Data Memory Barrier
+  \details Ensures the apparent order of the explicit memory operations before
+           and after the instruction, without ensuring their completion.
+ */
+__attribute__((always_inline)) __STATIC_INLINE void __DMB(void)
+{
+  __ASM volatile ("dmb 0xF":::"memory");
+}
+
+
+/**
+  \brief   Reverse byte order (32 bit)
+  \details Reverses the byte order in integer value.
+  \param [in]    value  Value to reverse
+  \return               Reversed value
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint32_t __REV(uint32_t value)
+{
+#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
+  return __builtin_bswap32(value);
+#else
+  uint32_t result;
+
+  __ASM volatile ("rev %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
+  return(result);
+#endif
+}
+
+
+/**
+  \brief   Reverse byte order (16 bit)
+  \details Reverses the byte order in two unsigned short values.
+  \param [in]    value  Value to reverse
+  \return               Reversed value
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint32_t __REV16(uint32_t value)
+{
+  uint32_t result;
+
+  __ASM volatile ("rev16 %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
+  return(result);
+}
+
+
+/**
+  \brief   Reverse byte order in signed short value
+  \details Reverses the byte order in a signed short value with sign extension to integer.
+  \param [in]    value  Value to reverse
+  \return               Reversed value
+ */
+__attribute__((always_inline)) __STATIC_INLINE int32_t __REVSH(int32_t value)
+{
+#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
+  return (short)__builtin_bswap16(value);
+#else
+  int32_t result;
+
+  __ASM volatile ("revsh %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
+  return(result);
+#endif
+}
+
+
+/**
+  \brief   Rotate Right in unsigned value (32 bit)
+  \details Rotate Right (immediate) provides the value of the contents of a register rotated by a variable number of bits.
+  \param [in]    value  Value to rotate
+  \param [in]    value  Number of Bits to rotate
+  \return               Rotated value
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint32_t __ROR(uint32_t op1, uint32_t op2)
+{
+  return (op1 >> op2) | (op1 << (32U - op2));
+}
+
+
+/**
+  \brief   Breakpoint
+  \details Causes the processor to enter Debug state.
+           Debug tools can use this to investigate system state when the instruction at a particular address is reached.
+  \param [in]    value  is ignored by the processor.
+                 If required, a debugger can use it to store additional information about the breakpoint.
+ */
+#define __BKPT(value)                       __ASM volatile ("bkpt "#value)
+
+
+/**
+  \brief   Reverse bit order of value
+  \details Reverses the bit order of the given value.
+  \param [in]    value  Value to reverse
+  \return               Reversed value
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint32_t __RBIT(uint32_t value)
+{
+  uint32_t result;
+
+#if       (__CORTEX_M >= 0x03U) || (__CORTEX_SC >= 300U)
+   __ASM volatile ("rbit %0, %1" : "=r" (result) : "r" (value) );
+#else
+  int32_t s = 4 /*sizeof(v)*/ * 8 - 1; /* extra shift needed at end */
+
+  result = value;                      /* r will be reversed bits of v; first get LSB of v */
+  for (value >>= 1U; value; value >>= 1U)
+  {
+    result <<= 1U;
+    result |= value & 1U;
+    s--;
+  }
+  result <<= s;                        /* shift when v's highest bits are zero */
+#endif
+  return(result);
+}
+
+
+/**
+  \brief   Count leading zeros
+  \details Counts the number of leading zeros of a data value.
+  \param [in]  value  Value to count the leading zeros
+  \return             number of leading zeros in value
+ */
+#define __CLZ             __builtin_clz
+
+
+#if       (__CORTEX_M >= 0x03U) || (__CORTEX_SC >= 300U)
+
+/**
+  \brief   LDR Exclusive (8 bit)
+  \details Executes a exclusive LDR instruction for 8 bit value.
+  \param [in]    ptr  Pointer to data
+  \return             value of type uint8_t at (*ptr)
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint8_t __LDREXB(volatile uint8_t *addr)
+{
+    uint32_t result;
+
+#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
+   __ASM volatile ("ldrexb %0, %1" : "=r" (result) : "Q" (*addr) );
+#else
+    /* Prior to GCC 4.8, "Q" will be expanded to [rx, #0] which is not
+       accepted by assembler. So has to use following less efficient pattern.
+    */
+   __ASM volatile ("ldrexb %0, [%1]" : "=r" (result) : "r" (addr) : "memory" );
+#endif
+   return ((uint8_t) result);    /* Add explicit type cast here */
+}
+
+
+/**
+  \brief   LDR Exclusive (16 bit)
+  \details Executes a exclusive LDR instruction for 16 bit values.
+  \param [in]    ptr  Pointer to data
+  \return        value of type uint16_t at (*ptr)
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint16_t __LDREXH(volatile uint16_t *addr)
+{
+    uint32_t result;
+
+#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
+   __ASM volatile ("ldrexh %0, %1" : "=r" (result) : "Q" (*addr) );
+#else
+    /* Prior to GCC 4.8, "Q" will be expanded to [rx, #0] which is not
+       accepted by assembler. So has to use following less efficient pattern.
+    */
+   __ASM volatile ("ldrexh %0, [%1]" : "=r" (result) : "r" (addr) : "memory" );
+#endif
+   return ((uint16_t) result);    /* Add explicit type cast here */
+}
+
+
+/**
+  \brief   LDR Exclusive (32 bit)
+  \details Executes a exclusive LDR instruction for 32 bit values.
+  \param [in]    ptr  Pointer to data
+  \return        value of type uint32_t at (*ptr)
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint32_t __LDREXW(volatile uint32_t *addr)
+{
+    uint32_t result;
+
+   __ASM volatile ("ldrex %0, %1" : "=r" (result) : "Q" (*addr) );
+   return(result);
+}
+
+
+/**
+  \brief   STR Exclusive (8 bit)
+  \details Executes a exclusive STR instruction for 8 bit values.
+  \param [in]  value  Value to store
+  \param [in]    ptr  Pointer to location
+  \return          0  Function succeeded
+  \return          1  Function failed
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint32_t __STREXB(uint8_t value, volatile uint8_t *addr)
+{
+   uint32_t result;
+
+   __ASM volatile ("strexb %0, %2, %1" : "=&r" (result), "=Q" (*addr) : "r" ((uint32_t)value) );
+   return(result);
+}
+
+
+/**
+  \brief   STR Exclusive (16 bit)
+  \details Executes a exclusive STR instruction for 16 bit values.
+  \param [in]  value  Value to store
+  \param [in]    ptr  Pointer to location
+  \return          0  Function succeeded
+  \return          1  Function failed
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint32_t __STREXH(uint16_t value, volatile uint16_t *addr)
+{
+   uint32_t result;
+
+   __ASM volatile ("strexh %0, %2, %1" : "=&r" (result), "=Q" (*addr) : "r" ((uint32_t)value) );
+   return(result);
+}
+
+
+/**
+  \brief   STR Exclusive (32 bit)
+  \details Executes a exclusive STR instruction for 32 bit values.
+  \param [in]  value  Value to store
+  \param [in]    ptr  Pointer to location
+  \return          0  Function succeeded
+  \return          1  Function failed
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint32_t __STREXW(uint32_t value, volatile uint32_t *addr)
+{
+   uint32_t result;
+
+   __ASM volatile ("strex %0, %2, %1" : "=&r" (result), "=Q" (*addr) : "r" (value) );
+   return(result);
+}
+
+
+/**
+  \brief   Remove the exclusive lock
+  \details Removes the exclusive lock which is created by LDREX.
+ */
+__attribute__((always_inline)) __STATIC_INLINE void __CLREX(void)
+{
+  __ASM volatile ("clrex" ::: "memory");
+}
+
+
+/**
+  \brief   Signed Saturate
+  \details Saturates a signed value.
+  \param [in]  value  Value to be saturated
+  \param [in]    sat  Bit position to saturate to (1..32)
+  \return             Saturated value
+ */
+#define __SSAT(ARG1,ARG2) \
+({                          \
+  uint32_t __RES, __ARG1 = (ARG1); \
+  __ASM ("ssat %0, %1, %2" : "=r" (__RES) :  "I" (ARG2), "r" (__ARG1) ); \
+  __RES; \
+ })
+
+
+/**
+  \brief   Unsigned Saturate
+  \details Saturates an unsigned value.
+  \param [in]  value  Value to be saturated
+  \param [in]    sat  Bit position to saturate to (0..31)
+  \return             Saturated value
+ */
+#define __USAT(ARG1,ARG2) \
+({                          \
+  uint32_t __RES, __ARG1 = (ARG1); \
+  __ASM ("usat %0, %1, %2" : "=r" (__RES) :  "I" (ARG2), "r" (__ARG1) ); \
+  __RES; \
+ })
+
+
+/**
+  \brief   Rotate Right with Extend (32 bit)
+  \details Moves each bit of a bitstring right by one bit.
+           The carry input is shifted in at the left end of the bitstring.
+  \param [in]    value  Value to rotate
+  \return               Rotated value
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint32_t __RRX(uint32_t value)
+{
+  uint32_t result;
+
+  __ASM volatile ("rrx %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
+  return(result);
+}
+
+
+/**
+  \brief   LDRT Unprivileged (8 bit)
+  \details Executes a Unprivileged LDRT instruction for 8 bit value.
+  \param [in]    ptr  Pointer to data
+  \return             value of type uint8_t at (*ptr)
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint8_t __LDRBT(volatile uint8_t *addr)
+{
+    uint32_t result;
+
+#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
+   __ASM volatile ("ldrbt %0, %1" : "=r" (result) : "Q" (*addr) );
+#else
+    /* Prior to GCC 4.8, "Q" will be expanded to [rx, #0] which is not
+       accepted by assembler. So has to use following less efficient pattern.
+    */
+   __ASM volatile ("ldrbt %0, [%1]" : "=r" (result) : "r" (addr) : "memory" );
+#endif
+   return ((uint8_t) result);    /* Add explicit type cast here */
+}
+
+
+/**
+  \brief   LDRT Unprivileged (16 bit)
+  \details Executes a Unprivileged LDRT instruction for 16 bit values.
+  \param [in]    ptr  Pointer to data
+  \return        value of type uint16_t at (*ptr)
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint16_t __LDRHT(volatile uint16_t *addr)
+{
+    uint32_t result;
+
+#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
+   __ASM volatile ("ldrht %0, %1" : "=r" (result) : "Q" (*addr) );
+#else
+    /* Prior to GCC 4.8, "Q" will be expanded to [rx, #0] which is not
+       accepted by assembler. So has to use following less efficient pattern.
+    */
+   __ASM volatile ("ldrht %0, [%1]" : "=r" (result) : "r" (addr) : "memory" );
+#endif
+   return ((uint16_t) result);    /* Add explicit type cast here */
+}
+
+
+/**
+  \brief   LDRT Unprivileged (32 bit)
+  \details Executes a Unprivileged LDRT instruction for 32 bit values.
+  \param [in]    ptr  Pointer to data
+  \return        value of type uint32_t at (*ptr)
+ */
+__attribute__((always_inline)) __STATIC_INLINE uint32_t __LDRT(volatile uint32_t *addr)
+{
+    uint32_t result;
+
+   __ASM volatile ("ldrt %0, %1" : "=r" (result) : "Q" (*addr) );
+   return(result);
+}
+
+
+/**
+  \brief   STRT Unprivileged (8 bit)
+  \details Executes a Unprivileged STRT instruction for 8 bit values.
+  \param [in]  value  Value to store
+  \param [in]    ptr  Pointer to location
+ */
+__attribute__((always_inline)) __STATIC_INLINE void __STRBT(uint8_t value, volatile uint8_t *addr)
+{
+   __ASM volatile ("strbt %1, %0" : "=Q" (*addr) : "r" ((uint32_t)value) );
+}
+
+
+/**
+  \brief   STRT Unprivileged (16 bit)
+  \details Executes a Unprivileged STRT instruction for 16 bit values.
+  \param [in]  value  Value to store
+  \param [in]    ptr  Pointer to location
+ */
+__attribute__((always_inline)) __STATIC_INLINE void __STRHT(uint16_t value, volatile uint16_t *addr)
+{
+   __ASM volatile ("strht %1, %0" : "=Q" (*addr) : "r" ((uint32_t)value) );
+}
+
+
+/**
+  \brief   STRT Unprivileged (32 bit)
+  \details Executes a Unprivileged STRT instruction for 32 bit values.
+  \param [in]  value  Value to store
+  \param [in]    ptr  Pointer to location
+ */
+__attribute__((always_inline)) __STATIC_INLINE void __STRT(uint32_t value, volatile uint32_t *addr)
+{
+   __ASM volatile ("strt %1, %0" : "=Q" (*addr) : "r" (value) );
+}
+
+#endif /* (__CORTEX_M >= 0x03U) || (__CORTEX_SC >= 300U) */
+
+/*@}*/ /* end of group CMSIS_Core_InstructionInterface */
+
+
+/* ###################  Compiler specific Intrinsics  ########################### */
+/** \defgroup CMSIS_SIMD_intrinsics CMSIS SIMD Intrinsics
+  Access to dedicated SIMD instructions
+  @{
+*/
+
+#if (__CORTEX_M >= 0x04U)  /* only for Cortex-M4 and above */
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SADD8(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("sadd8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __QADD8(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("qadd8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SHADD8(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("shadd8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UADD8(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uadd8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UQADD8(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uqadd8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UHADD8(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uhadd8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SSUB8(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("ssub8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __QSUB8(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("qsub8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SHSUB8(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("shsub8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __USUB8(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("usub8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UQSUB8(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uqsub8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UHSUB8(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uhsub8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SADD16(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("sadd16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __QADD16(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("qadd16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SHADD16(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("shadd16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UADD16(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uadd16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UQADD16(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uqadd16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UHADD16(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uhadd16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SSUB16(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("ssub16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __QSUB16(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("qsub16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SHSUB16(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("shsub16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __USUB16(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("usub16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UQSUB16(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uqsub16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UHSUB16(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uhsub16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SASX(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("sasx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __QASX(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("qasx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SHASX(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("shasx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UASX(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uasx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UQASX(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uqasx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UHASX(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uhasx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SSAX(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("ssax %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __QSAX(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("qsax %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SHSAX(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("shsax %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __USAX(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("usax %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UQSAX(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uqsax %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UHSAX(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uhsax %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __USAD8(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("usad8 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __USADA8(uint32_t op1, uint32_t op2, uint32_t op3)
+{
+  uint32_t result;
+
+  __ASM volatile ("usada8 %0, %1, %2, %3" : "=r" (result) : "r" (op1), "r" (op2), "r" (op3) );
+  return(result);
+}
+
+#define __SSAT16(ARG1,ARG2) \
+({                          \
+  int32_t __RES, __ARG1 = (ARG1); \
+  __ASM ("ssat16 %0, %1, %2" : "=r" (__RES) :  "I" (ARG2), "r" (__ARG1) ); \
+  __RES; \
+ })
+
+#define __USAT16(ARG1,ARG2) \
+({                          \
+  uint32_t __RES, __ARG1 = (ARG1); \
+  __ASM ("usat16 %0, %1, %2" : "=r" (__RES) :  "I" (ARG2), "r" (__ARG1) ); \
+  __RES; \
+ })
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UXTB16(uint32_t op1)
+{
+  uint32_t result;
+
+  __ASM volatile ("uxtb16 %0, %1" : "=r" (result) : "r" (op1));
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __UXTAB16(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("uxtab16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SXTB16(uint32_t op1)
+{
+  uint32_t result;
+
+  __ASM volatile ("sxtb16 %0, %1" : "=r" (result) : "r" (op1));
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SXTAB16(uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("sxtab16 %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMUAD  (uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("smuad %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMUADX (uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("smuadx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMLAD (uint32_t op1, uint32_t op2, uint32_t op3)
+{
+  uint32_t result;
+
+  __ASM volatile ("smlad %0, %1, %2, %3" : "=r" (result) : "r" (op1), "r" (op2), "r" (op3) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMLADX (uint32_t op1, uint32_t op2, uint32_t op3)
+{
+  uint32_t result;
+
+  __ASM volatile ("smladx %0, %1, %2, %3" : "=r" (result) : "r" (op1), "r" (op2), "r" (op3) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLALD (uint32_t op1, uint32_t op2, uint64_t acc)
+{
+  union llreg_u{
+    uint32_t w32[2];
+    uint64_t w64;
+  } llr;
+  llr.w64 = acc;
+
+#ifndef __ARMEB__   /* Little endian */
+  __ASM volatile ("smlald %0, %1, %2, %3" : "=r" (llr.w32[0]), "=r" (llr.w32[1]): "r" (op1), "r" (op2) , "0" (llr.w32[0]), "1" (llr.w32[1]) );
+#else               /* Big endian */
+  __ASM volatile ("smlald %0, %1, %2, %3" : "=r" (llr.w32[1]), "=r" (llr.w32[0]): "r" (op1), "r" (op2) , "0" (llr.w32[1]), "1" (llr.w32[0]) );
+#endif
+
+  return(llr.w64);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLALDX (uint32_t op1, uint32_t op2, uint64_t acc)
+{
+  union llreg_u{
+    uint32_t w32[2];
+    uint64_t w64;
+  } llr;
+  llr.w64 = acc;
+
+#ifndef __ARMEB__   /* Little endian */
+  __ASM volatile ("smlaldx %0, %1, %2, %3" : "=r" (llr.w32[0]), "=r" (llr.w32[1]): "r" (op1), "r" (op2) , "0" (llr.w32[0]), "1" (llr.w32[1]) );
+#else               /* Big endian */
+  __ASM volatile ("smlaldx %0, %1, %2, %3" : "=r" (llr.w32[1]), "=r" (llr.w32[0]): "r" (op1), "r" (op2) , "0" (llr.w32[1]), "1" (llr.w32[0]) );
+#endif
+
+  return(llr.w64);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMUSD  (uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("smusd %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMUSDX (uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("smusdx %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMLSD (uint32_t op1, uint32_t op2, uint32_t op3)
+{
+  uint32_t result;
+
+  __ASM volatile ("smlsd %0, %1, %2, %3" : "=r" (result) : "r" (op1), "r" (op2), "r" (op3) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMLSDX (uint32_t op1, uint32_t op2, uint32_t op3)
+{
+  uint32_t result;
+
+  __ASM volatile ("smlsdx %0, %1, %2, %3" : "=r" (result) : "r" (op1), "r" (op2), "r" (op3) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLSLD (uint32_t op1, uint32_t op2, uint64_t acc)
+{
+  union llreg_u{
+    uint32_t w32[2];
+    uint64_t w64;
+  } llr;
+  llr.w64 = acc;
+
+#ifndef __ARMEB__   /* Little endian */
+  __ASM volatile ("smlsld %0, %1, %2, %3" : "=r" (llr.w32[0]), "=r" (llr.w32[1]): "r" (op1), "r" (op2) , "0" (llr.w32[0]), "1" (llr.w32[1]) );
+#else               /* Big endian */
+  __ASM volatile ("smlsld %0, %1, %2, %3" : "=r" (llr.w32[1]), "=r" (llr.w32[0]): "r" (op1), "r" (op2) , "0" (llr.w32[1]), "1" (llr.w32[0]) );
+#endif
+
+  return(llr.w64);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint64_t __SMLSLDX (uint32_t op1, uint32_t op2, uint64_t acc)
+{
+  union llreg_u{
+    uint32_t w32[2];
+    uint64_t w64;
+  } llr;
+  llr.w64 = acc;
+
+#ifndef __ARMEB__   /* Little endian */
+  __ASM volatile ("smlsldx %0, %1, %2, %3" : "=r" (llr.w32[0]), "=r" (llr.w32[1]): "r" (op1), "r" (op2) , "0" (llr.w32[0]), "1" (llr.w32[1]) );
+#else               /* Big endian */
+  __ASM volatile ("smlsldx %0, %1, %2, %3" : "=r" (llr.w32[1]), "=r" (llr.w32[0]): "r" (op1), "r" (op2) , "0" (llr.w32[1]), "1" (llr.w32[0]) );
+#endif
+
+  return(llr.w64);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SEL  (uint32_t op1, uint32_t op2)
+{
+  uint32_t result;
+
+  __ASM volatile ("sel %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE  int32_t __QADD( int32_t op1,  int32_t op2)
+{
+  int32_t result;
+
+  __ASM volatile ("qadd %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE  int32_t __QSUB( int32_t op1,  int32_t op2)
+{
+  int32_t result;
+
+  __ASM volatile ("qsub %0, %1, %2" : "=r" (result) : "r" (op1), "r" (op2) );
+  return(result);
+}
+
+#define __PKHBT(ARG1,ARG2,ARG3) \
+({                          \
+  uint32_t __RES, __ARG1 = (ARG1), __ARG2 = (ARG2); \
+  __ASM ("pkhbt %0, %1, %2, lsl %3" : "=r" (__RES) :  "r" (__ARG1), "r" (__ARG2), "I" (ARG3)  ); \
+  __RES; \
+ })
+
+#define __PKHTB(ARG1,ARG2,ARG3) \
+({                          \
+  uint32_t __RES, __ARG1 = (ARG1), __ARG2 = (ARG2); \
+  if (ARG3 == 0) \
+    __ASM ("pkhtb %0, %1, %2" : "=r" (__RES) :  "r" (__ARG1), "r" (__ARG2)  ); \
+  else \
+    __ASM ("pkhtb %0, %1, %2, asr %3" : "=r" (__RES) :  "r" (__ARG1), "r" (__ARG2), "I" (ARG3)  ); \
+  __RES; \
+ })
+
+__attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __SMMLA (int32_t op1, int32_t op2, int32_t op3)
+{
+ int32_t result;
+
+ __ASM volatile ("smmla %0, %1, %2, %3" : "=r" (result): "r"  (op1), "r" (op2), "r" (op3) );
+ return(result);
+}
+
+#endif /* (__CORTEX_M >= 0x04) */
+/*@} end of group CMSIS_SIMD_intrinsics */
+
+
+#if defined ( __GNUC__ )
+#pragma GCC diagnostic pop
+#endif
+
+#endif /* __CMSIS_GCC_H */
+File: ./sys/power.h
+
+typedef enum {scale1=3,scale2=2,scale3=1} VOS;
+
+void start_PWR();
+
+void set_voltage_scale(VOS scale);
+
+VOS get_voltage_scale();
+
+void start_Overdrive();
+
+void stop_Overdrive();
+File: ./sys/init.h
+#include<stdint.h>
+
+void set_FLASH_latency(int32_t latency);
+void fpu_init();
+void enable_io_compensation();
+void clock_init();
+void software_init_hook();
+
+
+
+File: ./sys/cm4.h
+#ifndef __CM4_BUILTIN_H
+#define __CM4_BUILTIN_H
+
+#include<stdint.h>
+
+#define __STATIC_INLINE static inline
+#define __ASM asm
+#define __CORTEX_M 0x04U
+#define __FPU_PRESENT 1U
+#define __FPU_USED 1U
+
+/* explicit conversion for use in printf */ 
+static inline __attribute__((always_inline)) double ftod(float f) {
+  return f;
+}
+
+#include "cmsis_gcc.h"
+
+#endif
+File: ./sys/serial_io.c
+#include "serial_io.h"
+#include "clock.h"
+#include "devices.h"
+#include "cm4.h"
+#include <stdio.h>
+
+void enable_USART2_GPIO() {
+  /*  Enable GPIOA  */
+
+  enable_GPIOA();
+
+  /* setup PA2,PA3 alternate function : USART2_Tx/Rx */
+  /* AFRL2=7; AFRL3=7; */
+
+  GPIOA.AFRL = 
+    (GPIOA.AFRL & ~((15<<8) | (15<<12))) | ((7<<8)|(7<<12));
+
+  /* switch PA2,PA3 to alternate function mode */
+  /* MODER2=2; MODER3=2; */
+
+  GPIOA.MODER = 
+    (GPIOA.MODER & ~((3<<4)|(3<<6))) | ((2<<4)|(2<<6));
+}
+
+void setup_USART2(uint32_t baudrate) {
+  /*  Enable USART2 */
+
+  enable_USART2();
+
+  /* Setup baudrate (OVER8=0) */
+  USART2.BRR = get_APB1CLK()/baudrate;
+
+  /* SC OFF, IR OFF,HD OFF */
+  /* SCEN=0; IREN=0; HDSEL=0; */  
+
+  USART2.CR3 = (0<<1)|(0<<3)|(0<<5);
+
+  /* LIN OFF,1 stop bit,CLK OFF */
+  /* LINEN=0; STOP=0; CLKEN=0; */  
+
+  USART2.CR2 = (0<<11)|(0<<12)|(0<<14);
+
+  /* USART/Tx/Rx enable, no parity, 8 bits */ 
+  /* RE=1; TE=1; PCE=0; M=0; OVER8=0; */
+
+  USART2.CR1 = (1<<2) | (1<<3) | (0<<10) | (0<<12) | (1<<13) | (0<<15);
+}
+
+void serial_io_init() {
+  setup_USART2(9600);
+  enable_USART2_GPIO();
+
+  /* disable input/output buffering */
+  setvbuf(stdin ,NULL,_IONBF,0);
+  setvbuf(stdout,NULL,_IONBF,0);
+  setvbuf(stderr,NULL,_IONBF,0);
+}
+File: ./sys/power.c
+#include "power.h"
+#include "devices.h"
+#include "cm4.h"
+
+ 
+void set_voltage_scale(VOS scale) {
+  enable_PWR();
+  PWR.CR = (PWR.CR & ~(3<<14)) |((scale&0x3)<<14);
+  __DSB();
+}
+
+VOS get_voltage_scale() {
+  enable_PWR();
+  return ((PWR.CR>>14)&0x3);
+}
+
+void start_Overdrive() {
+  enable_PWR();
+  /* Start overdrive */
+  PWR.CR |= (1<<16);
+  while ((PWR.CSR&(1<<16))==0);
+  /* Switch to overdrive */
+  PWR.CR |= (1<<17);
+  while ((PWR.CSR&(1<<17))==0);
+}
+
+void stop_Overdrive() {
+  enable_PWR();
+  /* Stop overdrive */
+  PWR.CR &= ~((1<<16)|(1<<17));
+  __DSB();
+}
+File: ./led.c
+#include "sys/devices.h"
+#include "sys/cm4.h"
+#include "sys/clock.h"
+
+void led_init()
+{
+}
+
+
+void led_tri_set(uint32_t status)
+{
+}
+
+
