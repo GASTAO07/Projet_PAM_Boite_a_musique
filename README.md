@@ -1,5 +1,4 @@
-Voici une version organisée de votre README pour le projet "Projet_PAM_Boite_a_musique":
-
+Rogério Paulo GASTAO
 ---
 
 # Projet_PAM_Boite_a_musique
